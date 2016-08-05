@@ -1,0 +1,7 @@
+<div><%= link_to 'Go to detail', '/detail' %></div>
+
+<%- colors = %w[black green red blue green yellow orange purple] -%>
+<%- colors = colors * 100 -%>
+<%- colors.shuffle.each do |color| -%>
+  <%= color_tag color %>
+<%- end -%>
