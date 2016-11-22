@@ -1,26 +1,14 @@
 #= require jquery
 #= require jquery_ujs
+#= require selector_observer
 #= require turbolinks
 
-inspector =
-  selectors: []
-  process: (node) ->
-    return unless node.querySelectorAll
-    for [selector, callback] in @selectors
-      for foundNode in node.querySelectorAll(selector)
-        callback(foundNode)
-  watch: (selector, callback) ->
-    @selectors.push([selector, callback])
+observer = new SelectorObserver()
 
+observer.add '[data-color]', (nodes) ->
+  for node in nodes
+    node.style.color = node.dataset.color
 
-formatColor = (node) ->
-  node.style.color = node.dataset.color
-
-inspector.watch('[data-color]', formatColor)
-
-observer = new MutationObserver (mutations) ->
-  for mutation in mutations
-    for node in mutation.addedNodes
-      inspector.process(node)
-
-observer.observe document, childList: true, subtree: true
+#observer.remove '[data-color]', (nodes) ->
+  #for node in nodes
+    # ...
